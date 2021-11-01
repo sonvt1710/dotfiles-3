@@ -7,7 +7,7 @@ exec_always "bash ~/.config/polybar/launch.sh"
 exec "fluxgui"
 exec "setxkbmap latam"
 exec "ip link set wlp4s0 down"
-exec_always feh --bg-fill /home/nojipiz/Imágenes/Wallpapers/b.png
+exec_always feh --bg-fill /home/nojipiz/Images/Wallpapers/nord.jpg
 #-------------------------------------------------------------------------
 
 #--------------------------FONTS------------------------------------------
@@ -42,7 +42,7 @@ bindsym XF86MonBrightnessDown exec echo 2780 | sudo -S bash /home/nojipiz/.confi
 
 #-------------------------BINDS---------------------------------------------
 floating_modifier $mod
-bindsym $mod+Return exec i3-sensible-terminal
+	bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 bindsym $mod+z exec rofi -show run
 bindsym $mod+x exec rofi-surfraw
