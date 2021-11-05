@@ -1,7 +1,7 @@
 #!/bin/sh
 file="/sys/class/backlight/amdgpu_bl0/brightness"
-name=$(cat "$file")
-finalName=$((name + 20))
-if [[ finalName -lt 250 ]]; then
-	echo $finalName >> $file
+actualBrightness=$(cat "$file")
+newBrightness=$((actualBrightness + 20))
+if [[ newBrightness -lt 254 ]]; then
+	echo $newBrightness >> $file
 fi
