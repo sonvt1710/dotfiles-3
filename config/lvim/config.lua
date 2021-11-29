@@ -176,7 +176,7 @@ lvim.plugins = {
         conditions = {
             exists = true,
             filename_is_not = {},
-            filetype_is_not = {},
+            filetype_is_not = {'html'},
             modifiable = true
         },
         write_all_buffers = false,
@@ -184,11 +184,36 @@ lvim.plugins = {
         clean_command_line_interval = 0,
         debounce_delay = 135
         }
+
       )
     end
   }
 }
 
 
-
 -- Custom Config
+
+local prettier = {
+    formatCommand = 'prettierd "${INPUT}"',
+    formatStdin = true,
+    -- env = {
+    --   string.format('PRETTIERD_DEFAULT_CONFIG=%s', vim.fn.expand('/.config/nvim/lua/efm/.prettierrc.json')),
+    -- },
+}
+
+require('lspconfig')['efm'].setup{
+  on_attach = function(client)
+    client.resolved_capabilities.document_formatting = true
+    client.resolved_capabilities.document_range_formatting = true
+    client.resolved_capabilities.goto_definition = false
+  end,
+  settings = {
+    languages = {
+      html = {prettier}
+    }
+  },
+  filetypes = {
+   "html"
+  },
+}
+
