@@ -126,10 +126,12 @@ lvim.builtin.treesitter.highlight.enabled = true
 --     filetypes = { "typescript", "typescriptreact" },
 --   },
 -- }
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup{
+  {exe = "prettierd", filetypes = {"html"}}
+}
 
--- -- set additional linters
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
+-- -- set additional linters local linters = require "lvim.lsp.null-ls.linters" linters.setup {
 --   { exe = "flake8", filetypes = { "python" } },
 --   {
 --     exe = "shellcheck",
@@ -160,7 +162,6 @@ lvim.plugins = {
         sort = true,
       }
     end,
-
     run = "./install.sh",
     requires = "hrsh7th/nvim-cmp",
   },
@@ -184,36 +185,11 @@ lvim.plugins = {
         clean_command_line_interval = 0,
         debounce_delay = 135
         }
-
       )
     end
-  }
-}
-
-
--- Custom Config
-
-local prettier = {
-    formatCommand = 'prettierd "${INPUT}"',
-    formatStdin = true,
-    -- env = {
-    --   string.format('PRETTIERD_DEFAULT_CONFIG=%s', vim.fn.expand('/.config/nvim/lua/efm/.prettierrc.json')),
-    -- },
-}
-
-require('lspconfig')['efm'].setup{
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = true
-    client.resolved_capabilities.document_range_formatting = true
-    client.resolved_capabilities.goto_definition = false
-  end,
-  settings = {
-    languages = {
-      html = {prettier}
-    }
   },
-  filetypes = {
-   "html"
+  { -- Light Theme for Editor
+    "sainnhe/edge",
   },
 }
 
