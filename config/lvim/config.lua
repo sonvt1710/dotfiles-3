@@ -128,7 +128,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup{
-  {exe = "prettierd", filetypes = {"html"}}
+  {exe = "prettierd", filetypes = {"html", "vue"}}
 }
 
 -- -- set additional linters local linters = require "lvim.lsp.null-ls.linters" linters.setup {
@@ -177,7 +177,7 @@ lvim.plugins = {
         conditions = {
             exists = true,
             filename_is_not = {},
-            filetype_is_not = {'html'},
+            filetype_is_not = {'html', 'vue'},
             modifiable = true
         },
         write_all_buffers = false,
@@ -192,4 +192,5 @@ lvim.plugins = {
     "sainnhe/edge",
   },
 }
+
 
