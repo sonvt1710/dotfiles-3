@@ -3,8 +3,7 @@ lvim is the global options object
 
 Linters should be
 filled in as strings with either
-a global executable or a path to
-an executable
+a global executable or a path to an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 -- general
@@ -13,11 +12,9 @@ lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 lvim.keys.insert_mode["ii"] = "<Esc>"
 -- keymappings [view all the defaults by pressing <leader>Lk]
-lvim.leader = "space"
--- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.leader = "space" -- add your own keymapping lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- unmap a default keymapping
--- lvim.keys.normal_mode["<C-Up>"] = ""
+lvim.keys.normal_mode["|"] = ":lua ToggleTheme() <cr>"
 -- edit a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 
@@ -165,32 +162,42 @@ lvim.plugins = {
     run = "./install.sh",
     requires = "hrsh7th/nvim-cmp",
   },
+  -- {
+  --   "Pocco81/AutoSave.nvim",
+  --   config = function ()
+  --    local autosave = require "autosave"
+  --    autosave.setup(
+  --       {
+  --       enabled = true,
+  --       execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+  --       events = {"InsertLeave"},
+  --       conditions = {
+  --           exists = true,
+  --           filename_is_not = {},
+  --           filetype_is_not = {'html', 'vue'},
+  --           modifiable = true
+  --       },
+  --       write_all_buffers = false,
+  --       on_off_commands = true,
+  --       clean_command_line_interval = 0,
+  --       debounce_delay = 135
+  --       }
+  --     )
+  --   end
+  -- },
   {
-    "Pocco81/AutoSave.nvim",
-    config = function ()
-     local autosave = require "autosave"
-     autosave.setup(
-        {
-        enabled = true,
-        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-        events = {"InsertLeave"},
-        conditions = {
-            exists = true,
-            filename_is_not = {},
-            filetype_is_not = {'html', 'vue'},
-            modifiable = true
-        },
-        write_all_buffers = false,
-        on_off_commands = true,
-        clean_command_line_interval = 0,
-        debounce_delay = 135
-        }
-      )
-    end
-  },
-  { -- Light Theme for Editor
-    "sainnhe/edge",
-  },
+    "sainnhe/edge"
+  }
 }
 
+-- Custom functions
 
+function ToggleTheme()
+  if(vim.api.nvim_get_var("colors_name") == "onedarker") then
+    vim.api.nvim_command("colorscheme edge")
+    vim.api.nvim_command("set background=light")
+  else
+    vim.api.nvim_command("colorscheme onedarker")
+    vim.api.nvim_command("set background=dark")
+  end
+end
