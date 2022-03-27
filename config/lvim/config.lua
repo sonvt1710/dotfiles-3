@@ -3,18 +3,22 @@ lvim is the global options object
 
 Linters should be
 filled in as strings with either
-a global executable or a path to an executable
+a global executable or a path to
+an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 lvim.keys.insert_mode["ii"] = "<Esc>"
--- keymappings [view all the defaults by pressing <leader>Lk]
-lvim.leader = "space" -- add your own keymapping lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
--- unmap a default keymapping
+lvim.leader = "space"
+-- add your own keymapping
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["|"] = ":lua ToggleTheme() <cr>"
+-- unmap a default keymapping
+-- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 
@@ -50,20 +54,23 @@ lvim.keys.normal_mode["|"] = ":lua ToggleTheme() <cr>"
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-  "bash",
   "javascript",
   "json",
   "lua",
   "python",
   "typescript",
+  "tsx",
   "css",
+  "rust",
   "java",
   "yaml",
 }
@@ -71,81 +78,10 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
--- generic LSP settings
-
--- ---@usage disable automatic installation of servers
--- lvim.lsp.automatic_servers_installation = false
-
--- ---@usage Select which servers should be configured manually. Requires `:LvimCacheRest` to take effect.
--- See the full default list `:lua print(vim.inspect(lvim.lsp.override))`
--- vim.list_extend(lvim.lsp.override, { "pyright" })
-
--- ---@usage setup a server -- see: https://www.lunarvim.org/languages/#overriding-the-default-configuration
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
--- require("lvim.lsp.manager").setup("pylsp", opts)
-
--- you can set a custom on_attach function that will be used for all the language servers
--- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
--- you can overwrite the null_ls setup table (useful for setting the root_dir function)
--- lvim.lsp.null_ls.setup = {
---   root_dir = require("lspconfig").util.root_pattern("Makefile", ".git", "node_modules"),
--- }
--- or if you need something more advanced
--- lvim.lsp.null_ls.setup.root_dir = function(fname)
---   if vim.bo.filetype == "javascript" then
---     return require("lspconfig/util").root_pattern("Makefile", ".git", "node_modules")(fname)
---       or require("lspconfig/util").path.dirname(fname)
---   elseif vim.bo.filetype == "php" then
---     return require("lspconfig/util").root_pattern("Makefile", ".git", "composer.json")(fname) or vim.fn.getcwd()
---   else
---     return require("lspconfig/util").root_pattern("Makefile", ".git")(fname) or require("lspconfig/util").path.dirname(fname)
---   end
--- end
-
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   { exe = "black", filetypes = { "python" } },
---   { exe = "isort", filetypes = { "python" } },
---   {
---     exe = "prettier",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     args = { "--print-with", "100" },
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup{
   {exe = "prettierd", filetypes = {"html", "vue"}}
 }
-
--- -- set additional linters local linters = require "lvim.lsp.null-ls.linters" linters.setup {
---   { exe = "flake8", filetypes = { "python" } },
---   {
---     exe = "shellcheck",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     args = { "--severity", "warning" },
---   },
---   {
---     exe = "codespell",
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "javascript", "python" },
---   },
--- }
-
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- lvim.autocommands.custom_groups = {
--- }
 
 -- Additional Plugins
 lvim.plugins = {
@@ -162,35 +98,15 @@ lvim.plugins = {
     run = "./install.sh",
     requires = "hrsh7th/nvim-cmp",
   },
-  -- {
-  --   "Pocco81/AutoSave.nvim",
-  --   config = function ()
-  --    local autosave = require "autosave"
-  --    autosave.setup(
-  --       {
-  --       enabled = true,
-  --       execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-  --       events = {"InsertLeave"},
-  --       conditions = {
-  --           exists = true,
-  --           filename_is_not = {},
-  --           filetype_is_not = {'html', 'vue'},
-  --           modifiable = true
-  --       },
-  --       write_all_buffers = false,
-  --       on_off_commands = true,
-  --       clean_command_line_interval = 0,
-  --       debounce_delay = 135
-  --       }
-  --     )
-  --   end
-  -- },
   {
     "sainnhe/edge"
-  }
-}
+  },
+  -- { --Test Database access in lunarvim
+  --   "kristijanhusak/vim-dadbod-ui",
+  --   requires = "tpope/vim-dadbod"
+  -- }
 
--- Custom functions
+}
 
 function ToggleTheme()
   if(vim.api.nvim_get_var("colors_name") == "onedarker") then
