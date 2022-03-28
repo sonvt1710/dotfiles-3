@@ -81,18 +81,7 @@ formatters.setup{
 -- Additional Plugins
 lvim.plugins = {
   {
-
-    "tzachar/cmp-tabnine",
-    config = function()
-      local tabnine = require "cmp_tabnine.config"
-      tabnine:setup {
-        max_lines = 500,
-        max_num_results = 10,
-        sort = true,
-      }
-    end,
-    run = "./install.sh",
-    requires = "hrsh7th/nvim-cmp",
+    "github/copilot.vim"
   },
   {
     "sainnhe/edge"
@@ -102,6 +91,22 @@ lvim.plugins = {
   --   requires = "tpope/vim-dadbod"
   -- }
 }
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+vim.g.copilot_tab_fallback = ""
+local cmp = require "cmp"
+lvim.builtin.cmp.mapping["<Tab>"] = function(fallback)
+  if cmp.visible() then
+    cmp.select_next_item()
+  else
+    local copilot_keys = vim.fn["copilot#Accept"]()
+    if copilot_keys ~= "" then
+      vim.api.nvim_feedkeys(copilot_keys, "i", true)
+    else
+      fallback()
+    end
+  end
+end
 
 function ToggleTheme()
   if(vim.api.nvim_get_var("colors_name") == "onedarker") then
