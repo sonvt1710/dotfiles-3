@@ -1,12 +1,8 @@
---[[
-lvim is the global options object
+-- GUI CONFIGURATION FOR NEOVIDE
+vim.o.guifont = "Monospace:h11"
 
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+
 
 -- general
 lvim.log.level = "warn"
@@ -16,14 +12,13 @@ lvim.keys.insert_mode["ii"] = "<Esc>"
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["|"] = ":lua ToggleTheme() <cr>"
+lvim.keys.normal_mode["|"] = ":lua ToggleTheme() <cr> "
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
+-- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode. we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 -- local _, actions = pcall(require, "telescope.actions")
 -- lvim.builtin.telescope.defaults.mappings = {
 --   -- for input mode
@@ -86,6 +81,7 @@ formatters.setup{
 -- Additional Plugins
 lvim.plugins = {
   {
+
     "tzachar/cmp-tabnine",
     config = function()
       local tabnine = require "cmp_tabnine.config"
@@ -105,15 +101,14 @@ lvim.plugins = {
   --   "kristijanhusak/vim-dadbod-ui",
   --   requires = "tpope/vim-dadbod"
   -- }
-
 }
 
 function ToggleTheme()
   if(vim.api.nvim_get_var("colors_name") == "onedarker") then
+    vim.o.background = "light"
     vim.api.nvim_command("colorscheme edge")
-    vim.api.nvim_command("set background=light")
   else
+    vim.o.background = "dark"
     vim.api.nvim_command("colorscheme onedarker")
-    vim.api.nvim_command("set background=dark")
   end
 end
