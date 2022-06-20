@@ -1,9 +1,6 @@
 -- GUI CONFIGURATION FOR NEOVIDE
 vim.o.guifont = "Monospace:h11"
 
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
@@ -74,8 +71,8 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
 local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup{
-  {exe = "prettierd", filetypes = {"html", "vue"}}
+formatters.setup {
+  { exe = "prettierd", filetypes = { "html", "vue", "css", "scss" } }
 }
 
 -- Additional Plugins
@@ -86,11 +83,17 @@ lvim.plugins = {
   {
     "sainnhe/edge"
   },
-  -- { --Test Database access in lunarvim
-  --   "kristijanhusak/vim-dadbod-ui",
-  --   requires = "tpope/vim-dadbod"
-  -- }
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    requires = "tpope/vim-dadbod"
+  },
 }
+
+-- Only if i must iuser tailwind
+--vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "tailwindcss" })
+--require("lvim.lsp.manager").setup("tailwindcss", {})
+
+-- GithubCopilot Configuration
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
@@ -108,8 +111,9 @@ lvim.builtin.cmp.mapping["<Tab>"] = function(fallback)
   end
 end
 
+-- Quickchange functions
 function ToggleTheme()
-  if(vim.api.nvim_get_var("colors_name") == "onedarker") then
+  if (vim.api.nvim_get_var("colors_name") == "onedarker") then
     vim.o.background = "light"
     vim.api.nvim_command("colorscheme edge")
   else
