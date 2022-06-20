@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+/home/nojipiz/.config/coc/extensions/coc-java-data/jdt_ws_aa442034e836b222ceebfed41d017dd8/.metadata/.plugins/org.eclipse.jdt.core
-1865797976.index
-1552225311.index
-3842426239.index
