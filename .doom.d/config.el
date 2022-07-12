@@ -7,7 +7,10 @@
 ;; There is no place like home :D
 ;; LunarVim's like bindings
 (setq evil-escape-key-sequence "ii")
-
+(map! :map global-map
+      :n "C-l" #'evil-window-right)
+(map! :map global-map
+      :n "C-h" #'evil-window-left)
 ;; Try to improve speed of lsp completion
 (setq lsp-idle-delay 0.500)
 
@@ -56,20 +59,3 @@
 (use-package lsp-tailwindcss
   :init
   (setq lsp-tailwindcss-add-on-mode t))
-
-;; accept completion from copilot and fallback to company
-(defun my-tab ()
-  (interactive)
-  (or (copilot-accept-completion)
-      (company-indent-or-complete-common nil)))
-
-(use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
-         ("C-<tab>" . 'copilot-accept-completion-by-word)
-         :map company-active-map
-         ("<tab>" . 'my-tab)
-         ("TAB" . 'my-tab)
-         :map company-mode-map
-         ("<tab>" . 'my-tab)
-         ("TAB" . 'my-tab)))
