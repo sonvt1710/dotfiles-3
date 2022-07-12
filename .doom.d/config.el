@@ -8,6 +8,9 @@
 ;; LunarVim's like bindings
 (setq evil-escape-key-sequence "ii")
 
+;; Try to improve speed of lsp completion
+(setq lsp-idle-delay 0.500)
+
 ;; Style Stuff
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
@@ -16,11 +19,11 @@
 ;; - `doom-unicode-font' -- for unicode glyphs
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 (setq doom-theme 'doom-one)
-(setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'semi-light) doom-variable-pitch-font (font-spec :family "Fira Code" :size 20))
+(setq doom-font (font-spec :family "Fira Code" :size 19 :weight 'semi-light) doom-variable-pitch-font (font-spec :family "Fira Code" :size 20))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -53,3 +56,20 @@
 (use-package lsp-tailwindcss
   :init
   (setq lsp-tailwindcss-add-on-mode t))
+
+;; accept completion from copilot and fallback to company
+(defun my-tab ()
+  (interactive)
+  (or (copilot-accept-completion)
+      (company-indent-or-complete-common nil)))
+
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+         ("C-<tab>" . 'copilot-accept-completion-by-word)
+         :map company-active-map
+         ("<tab>" . 'my-tab)
+         ("TAB" . 'my-tab)
+         :map company-mode-map
+         ("<tab>" . 'my-tab)
+         ("TAB" . 'my-tab)))
