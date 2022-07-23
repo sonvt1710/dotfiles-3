@@ -18,7 +18,6 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.cmp.experimental.ghost_text = true
-lvim.builtin.cmp.experimental.native_menu = true
 lvim.builtin.nvimtree.setup.view.side = "right"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 
@@ -80,7 +79,6 @@ lvim.builtin.cmp.mapping["<Tab>"] = function(fallback)
     end
   end
 end
-
 -- Custom functions
 function ToggleTheme()
   if (vim.api.nvim_get_var("colors_name") == "onedarker") then
