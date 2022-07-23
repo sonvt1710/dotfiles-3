@@ -1,7 +1,8 @@
--- Config for Neovide
-vim.o.guifont = "Fira Code:h10"
+-- Config for Neovide GUI
+vim.o.guifont = "Fira Code:h9"
 
 -- General
+vim.opt.number = false
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
@@ -13,12 +14,18 @@ lvim.keys.normal_mode["|"] = ":lua ToggleTheme() <cr> "
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
+
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.cmp.experimental.ghost_text = true
+lvim.builtin.cmp.experimental.native_menu = true
+lvim.builtin.nvimtree.setup.view.side = "right"
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 
--- if you don't want all the parsers change this to a table of the ones you want
+-- Lualine config
+lvim.builtin.lualine.style = "default"
+
+-- Programming languages that i use
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "javascript",
@@ -33,9 +40,10 @@ lvim.builtin.treesitter.ensure_installed = {
   "yaml",
 }
 
+-- Lsp Configuration
+lvim.lsp.automatic_servers_installation = false
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { exe = "prettierd", filetypes = { "html", "vue", "css", "scss" } }
