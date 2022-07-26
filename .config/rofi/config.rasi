@@ -1,0 +1,5 @@
+configuration {
+	font: "Roboto 16";
+}
+@theme "/usr/share/rofi/themes/gruvbox-common.rasi"
+
